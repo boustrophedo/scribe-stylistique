@@ -11,7 +11,6 @@ import BadgeGallery from './components/BadgeGallery';
 import ProfileScreen from './components/ProfileScreen';
 import AnalyzeMode from './components/AnalyzeMode';
 import ChameleonMode from './components/ChameleonMode';
-import CommunityArena from './components/CommunityArena';
 import TeacherDashboard from './components/TeacherDashboard';
 import ProjectWorkspace from './components/ProjectWorkspace';
 import WorkshopMode from './components/WorkshopMode';
@@ -45,8 +44,7 @@ import ComparisonDuel from './components/ComparisonDuel';
 import StyleIdentificationMode from './components/StyleIdentificationMode';
 import DialogueStagingMode from './components/DialogueStagingMode';
 import ProfileSelectionScreen from './components/ProfileSelectionScreen';
-
-
+import DictationMode from './components/DictationMode';
 
 import { JOURNEYS } from './journeys';
 import { BADGES } from './constants';
@@ -85,7 +83,6 @@ const App: React.FC = () => {
     addXp,
     unlockBadge,
     addPerformanceRecords,
-    updateCustomJourneys,
     activeProfileId,
     loadProfiles,
     switchProfile,
@@ -316,69 +313,281 @@ const App: React.FC = () => {
         });
     };
 
-    const handleSelectLexiconWord = (word: string) => {
-        navigator.clipboard.writeText(word);
-        setIsLexiconOpen(false);
-    };
-  
-    const handleSwitchProfile = () => {
-      switchProfile(null); // This will set activeProfileId to null
-      // Clear any app-level state related to the old profile
-      setAppMode('home');
-      setResumeInfo(null);
-      // Other state resets if necessary
-    };
+    const handleSelectLexiconWord = (word: string) => {};
 
   const renderContent = () => {
-    switch(appMode) {
-      case 'home': return <SelectionScreen onSelectMode={handleModeChange} onResumeJourney={handleResumeJourney} resumeInfo={resumeInfo} />;
-      case 'journey': return <JourneyMode journeys={[...JOURNEYS, ...customJourneys]} onBackToHome={handleResetToHome} resumeInfo={resumeInfo} onUnlockBadge={handleUnlockBadge} onJourneyComplete={addPerformanceRecords} startJourneyId={startJourneyId} onXpGain={handleXpGain} />;
-      case 'mirror': return <MirrorMode onBackToHome={handleResetToHome} onUnlockBadge={handleUnlockBadge} onJourneyComplete={addPerformanceRecords} />;
-      case 'creative': return <CreativeMode onBackToHome={handleResetToHome} onSelectMode={handleModeChange} />;
-      case 'badges': return <BadgeGallery allBadges={BADGES} earnedBadgeIds={earnedBadges} onBack={handleResetToHome} />;
-      case 'profile': return <ProfileScreen onBack={handleResetToHome} />;
-      case 'analyze': return <AnalyzeMode onBackToHome={handleResetToHome} />;
-      case 'duel': return <ScribeDuelMode onBackToHome={handleResetToHome} />;
-      case 'chameleon': return <ChameleonMode onBack={handleResetToHome} />;
-      case 'community': return <CommunityArena onBackToHome={handleResetToHome} />;
-      case 'teacher': return <TeacherDashboard onBackToHome={handleResetToHome} />;
-      case 'project': return <ProjectWorkspace onBackToHome={handleResetToHome} />;
-      case 'workshop': return <WorkshopMode onBackToHome={handleResetToHome} />;
-      case 'tandem': return <TandemMode onBackToHome={handleResetToHome} />;
-      case 'fusion': return <StyleFusionMode onBack={handleResetToHome} />;
-      case 'interview': return <CharacterInterview onBack={() => handleModeChange('creative')} />;
-      case 'illustrator': return <UniverseIllustrator onBack={() => handleModeChange('creative')} />;
-      case 'plot_doctor': return <PlotDoctor onBack={() => handleModeChange('creative')} />;
-      case 'sonograph': return <SonographMode onBackToHome={handleResetToHome} />;
-      case 'scene_editor': return <SceneEditorMode onBackToHome={handleResetToHome} />;
-      case 'sentence_architect': return <SentenceArchitectMode onBackToHome={handleResetToHome} />;
-      case 'block_breaker': return <BlockBreakerMode onBackToHome={handleResetToHome} />;
-      case 'style_pruner': return <StylePrunerMode onBackToHome={handleResetToHome} />;
-      case 'poetic_fragments': return <PoeticFragmentsMode onBackToHome={handleResetToHome} />;
-      case 'lynx_eye': return <LynxEyeMode onBackToHome={handleResetToHome} />;
-      case 'oracle': return <CharacterOracle onBack={() => handleModeChange('creative')} />;
-      case 'mind_map': return <MindMapMode onBackToHome={handleResetToHome} />;
-      case 'story_builder': return <StoryBuilderMode onBackToHome={handleResetToHome} />;
-      case 'homophone_duel': return <HomophoneDuelMode onBackToHome={handleResetToHome} />;
-      case 'theatre': return <TheatreOfRelationsMode onBackToHome={handleResetToHome} />;
-      case 'ambiance': return <AmbianceMode onBack={() => handleModeChange('creative')} onBackToHome={handleResetToHome} activeSounds={activeSounds} onGenerate={handleGenerateAmbiance} onTogglePlay={handleToggleAmbiancePlay} onVolumeChange={handleAmbianceVolumeChange} />;
-      case 'grimoire': return <GrimoireMode onBack={handleResetToHome} />;
-      case 'gallery': return <ScribesGallery onBack={handleResetToHome} />;
-      case 'codex': return <UniverseCodex onBack={() => handleModeChange('creative')} />;
-      case 'adjective_race': return <AdjectiveRace onBack={() => handleModeChange('creative')} />;
-      case 'seismograph': return <EmotionalSeismograph onBack={() => handleModeChange('creative')} />;
-      case 'verb_sprint': return <VerbSprint onBack={() => handleModeChange('creative')} />;
-      case 'comparison_duel': return <ComparisonDuel onBack={() => handleModeChange('creative')} />;
-      case 'style_identification': return <StyleIdentificationMode onBackToHome={handleResetToHome} />;
-      case 'dialogue_staging': return <DialogueStagingMode onBack={() => handleModeChange('creative')} />;
-      default: return <SelectionScreen onSelectMode={handleModeChange} onResumeJourney={handleResumeJourney} resumeInfo={resumeInfo} />;
+    const viewProps = {
+        className: `view-container w-full max-w-5xl mx-auto flex-grow ${
+            animationState === 'in' ? 'is-in' : animationState === 'out' ? 'is-out' : 'initial-in'
+        }`
+    };
+
+    switch (appMode) {
+        case 'home':
+            return (
+                <div {...viewProps}>
+                    <SelectionScreen onSelectMode={handleModeChange} onResumeJourney={handleResumeJourney} resumeInfo={resumeInfo} />
+                </div>
+            );
+        case 'journey':
+             return (
+                <div {...viewProps}>
+                    <JourneyMode
+                        journeys={[...JOURNEYS, ...customJourneys]}
+                        onBackToHome={handleResetToHome}
+                        resumeInfo={resumeInfo}
+                        startJourneyId={startJourneyId}
+                        onUnlockBadge={handleUnlockBadge}
+                        onJourneyComplete={addPerformanceRecords}
+                        onXpGain={handleXpGain}
+                    />
+                </div>
+            );
+        case 'mirror':
+            return (
+                <div {...viewProps}>
+                    <MirrorMode 
+                        onBackToHome={handleResetToHome} 
+                        onUnlockBadge={handleUnlockBadge}
+                        onJourneyComplete={addPerformanceRecords}
+                    />
+                </div>
+            );
+        case 'creative':
+            return (
+                <div {...viewProps}>
+                    <CreativeMode onBackToHome={handleResetToHome} onSelectMode={handleModeChange} />
+                </div>
+            );
+        case 'badges':
+             return (
+                <div {...viewProps}>
+                    <BadgeGallery allBadges={BADGES} earnedBadgeIds={earnedBadges} onBack={handleResetToHome} />
+                </div>
+            );
+        case 'profile':
+            return (
+                <div {...viewProps}>
+                    <ProfileScreen onBack={handleResetToHome} />
+                </div>
+            );
+        case 'analyze':
+            return (
+                <div {...viewProps}>
+                    <AnalyzeMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'duel':
+            return (
+                <div {...viewProps}>
+                    <ScribeDuelMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'chameleon':
+            return (
+                <div {...viewProps}>
+                    <ChameleonMode onBack={handleResetToHome} />
+                </div>
+            );
+        case 'teacher':
+             return (
+                <div {...viewProps}>
+                    <TeacherDashboard onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'project':
+            return (
+                <div {...viewProps}>
+                    <ProjectWorkspace onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'workshop':
+            return (
+                <div {...viewProps}>
+                    <WorkshopMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'tandem':
+             return (
+                <div {...viewProps}>
+                    <TandemMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'fusion':
+            return (
+                <div {...viewProps}>
+                    <StyleFusionMode onBack={handleResetToHome} />
+                </div>
+            );
+        case 'interview':
+            return (
+                <div {...viewProps}>
+                    <CharacterInterview onBack={handleResetToHome} />
+                </div>
+            );
+        case 'illustrator':
+            return (
+                <div {...viewProps}>
+                    <UniverseIllustrator onBack={handleResetToHome} />
+                </div>
+            );
+        case 'plot_doctor':
+            return (
+                <div {...viewProps}>
+                    <PlotDoctor onBack={handleResetToHome} />
+                </div>
+            );
+        case 'sonograph':
+            return (
+                <div {...viewProps}>
+                    <SonographMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'scene_editor':
+            return (
+                <div {...viewProps}>
+                    <SceneEditorMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+         case 'sentence_architect':
+            return (
+                <div {...viewProps}>
+                    <SentenceArchitectMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'block_breaker':
+            return (
+                <div {...viewProps}>
+                    <BlockBreakerMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'style_pruner':
+            return (
+                <div {...viewProps}>
+                    <StylePrunerMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'poetic_fragments':
+            return (
+                <div {...viewProps}>
+                    <PoeticFragmentsMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'lynx_eye':
+            return (
+                <div {...viewProps}>
+                    <LynxEyeMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'oracle':
+             return (
+                <div {...viewProps}>
+                    <CharacterOracle onBack={handleResetToHome} />
+                </div>
+            );
+        case 'mind_map':
+            return (
+                <div {...viewProps}>
+                    <MindMapMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'story_builder':
+             return (
+                <div {...viewProps}>
+                    <StoryBuilderMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+         case 'homophone_duel':
+            return (
+                <div {...viewProps}>
+                    <HomophoneDuelMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'theatre':
+            return (
+                <div {...viewProps}>
+                    <TheatreOfRelationsMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'ambiance':
+            return (
+                <div {...viewProps}>
+                     <AmbianceMode 
+                        onBackToHome={handleResetToHome}
+                        activeSounds={activeSounds}
+                        onGenerate={handleGenerateAmbiance}
+                        onTogglePlay={handleToggleAmbiancePlay}
+                        onVolumeChange={handleAmbianceVolumeChange}
+                     />
+                </div>
+            );
+        case 'grimoire':
+            return (
+                <div {...viewProps}>
+                    <GrimoireMode onBack={handleResetToHome} />
+                </div>
+            );
+        case 'gallery':
+            return (
+                <div {...viewProps}>
+                    <ScribesGallery onBack={handleResetToHome} />
+                </div>
+            );
+        case 'dictation':
+            return (
+                <div {...viewProps}>
+                    <DictationMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'codex':
+            return (
+                <div {...viewProps}>
+                    <UniverseCodex onBack={handleResetToHome} />
+                </div>
+            );
+        case 'adjective_race':
+            return (
+                <div {...viewProps}>
+                    <AdjectiveRace onBack={handleResetToHome} />
+                </div>
+            );
+        case 'seismograph':
+            return (
+                <div {...viewProps}>
+                    <EmotionalSeismograph onBack={handleResetToHome} />
+                </div>
+            );
+        case 'verb_sprint':
+            return (
+                <div {...viewProps}>
+                    <VerbSprint onBack={handleResetToHome} />
+                </div>
+            );
+        case 'comparison_duel':
+            return (
+                <div {...viewProps}>
+                    <ComparisonDuel onBack={handleResetToHome} />
+                </div>
+            );
+        case 'style_identification':
+            return (
+                <div {...viewProps}>
+                    <StyleIdentificationMode onBackToHome={handleResetToHome} />
+                </div>
+            );
+        case 'dialogue_staging':
+             return (
+                <div {...viewProps}>
+                    <DialogueStagingMode onBack={handleResetToHome} />
+                </div>
+            );
+        default:
+            return (
+                <div {...viewProps}>
+                    <SelectionScreen onSelectMode={handleModeChange} onResumeJourney={handleResumeJourney} resumeInfo={resumeInfo} />
+                </div>
+            );
     }
-  };
-  
-  const animationClasses = {
-    in: 'is-in',
-    out: 'is-out',
-    initial: 'initial-in'
   };
 
   if (!activeProfileId) {
@@ -386,38 +595,30 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="bg-slate-900 text-slate-200 flex-grow flex flex-col font-sans">
-      <AccessibilityControls />
-      {newlyUnlockedBadge && <BadgeNotification badge={newlyUnlockedBadge} />}
-      {newlyLeveledUp && <LevelUpNotification level={newlyLeveledUp} />}
-
-      <InverseLexiconModal
-        isOpen={isLexiconOpen}
-        onClose={() => setIsLexiconOpen(false)}
-        onSelectWord={handleSelectLexiconWord}
-      />
-
+    <>
       <Header
-        onLogoClick={handleResetToHome}
-        onBadgesClick={() => handleModeChange('badges')}
-        onProfileClick={() => handleModeChange('profile')}
-        onLexiconClick={() => setIsLexiconOpen(true)}
-        onGrimoireClick={() => handleModeChange('grimoire')}
-        onSwitchProfile={handleSwitchProfile}
-        animate={animateLogo}
-        activeSounds={activeSounds}
-        onStopAllAmbiance={handleStopAllAmbiance}
-        level={level}
-        xp={xp}
-        xpForNextLevel={xpForNextLevel}
+          onLogoClick={handleResetToHome}
+          onBadgesClick={() => handleModeChange('badges')}
+          onProfileClick={() => handleModeChange('profile')}
+          onLexiconClick={() => setIsLexiconOpen(true)}
+          onGrimoireClick={() => handleModeChange('grimoire')}
+          onSwitchProfile={() => switchProfile(null)}
+          animate={animateLogo}
+          activeSounds={activeSounds}
+          onStopAllAmbiance={handleStopAllAmbiance}
+          level={level}
+          xp={xp}
+          xpForNextLevel={xpForNextLevel}
       />
-      <main className="flex-grow w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
-        <div key={appMode} className={`w-full view-container ${animationClasses[animationState]}`}>
+      <main className="flex-grow w-full flex items-start justify-center p-4 sm:p-6 lg:p-8">
           {renderContent()}
-        </div>
       </main>
       <Footer />
-    </div>
+      {newlyUnlockedBadge && <BadgeNotification badge={newlyUnlockedBadge} />}
+      {newlyLeveledUp && <LevelUpNotification level={newlyLeveledUp} />}
+      <InverseLexiconModal isOpen={isLexiconOpen} onClose={() => setIsLexiconOpen(false)} onSelectWord={handleSelectLexiconWord} />
+      <AccessibilityControls />
+    </>
   );
 };
 
