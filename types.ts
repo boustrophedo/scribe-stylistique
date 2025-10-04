@@ -1,3 +1,4 @@
+
 export type AppMode = 'home' | 'journey' | 'mirror' | 'creative' | 'badges' | 'profile' | 'analyze' | 'duel' | 'chameleon' | 'teacher' | 'project' | 'workshop' | 'tandem' | 'fusion' | 'interview' | 'illustrator' | 'plot_doctor' | 'sonograph' | 'scene_editor' | 'sentence_architect' | 'block_breaker' | 'style_pruner' | 'poetic_fragments' | 'lynx_eye' | 'oracle' | 'mind_map' | 'story_builder' | 'homophone_duel' | 'theatre' | 'ambiance' | 'grimoire' | 'gallery' | 'dictation' | 'codex' | 'adjective_race' | 'seismograph' | 'verb_sprint' | 'comparison_duel' | 'style_identification' | 'dialogue_staging';
 
 export interface Badge {
