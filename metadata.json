@@ -1,0 +1,5 @@
+{
+  "name": "Scribe Stylistique",
+  "description": "Une application web interactive pour améliorer son style d'écriture. Les utilisateurs soumettent un texte, reçoivent une analyse stylistique et un défi de réécriture, puis obtiennent un feedback comparatif détaillé, le tout alimenté par l'IA.",
+  "requestFramePermissions": []
+}

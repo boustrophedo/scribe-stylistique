@@ -1,0 +1,23 @@
+{
+  "name": "scribe-stylistique",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Une application web interactive pour améliorer son style d'écriture.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/genai": "^1.21.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  }
+}
