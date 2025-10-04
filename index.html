@@ -1,3 +1,22 @@
+<script type="importmap">
+{
+  "imports": {
+    "vite": "https://aistudiocdn.com/vite@^7.1.9",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.4",
+    "vitest": "https://aistudiocdn.com/vitest@^3.2.4",
+    "vitest/": "https://aistudiocdn.com/vitest@^3.2.4/",
+    "@testing-library/jest-dom": "https://aistudiocdn.com/@testing-library/jest-dom@^6.9.1",
+    "zustand": "https://aistudiocdn.com/zustand@^4.5.2",
+    "@testing-library/react": "https://aistudiocdn.com/@testing-library/react@^16.3.0",
+    "pdfjs-dist": "https://aistudiocdn.com/pdfjs-dist@^4.4.168",
+    "react": "https://aistudiocdn.com/react@^18.2.0",
+    "react/": "https://aistudiocdn.com/react@^18.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^18.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^0.1.0",
+    "@testing-library/jest-dom/": "https://aistudiocdn.com/@testing-library/jest-dom@^6.9.1/"
+  }
+}
+</script>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -580,148 +599,34 @@
         animation: pulse-caret 1s step-end infinite;
       }
 
-      /* Animations du Grimoire */
-      @keyframes grimoire-glow {
-        0%, 100% { filter: drop-shadow(0 0 5px #22d3ee); }
-        50% { filter: drop-shadow(0 0 15px #81e6f9); }
-      }
-      .grimoire-glow {
-        animation: grimoire-glow 0.8s ease-in-out forwards;
-      }
-      @keyframes grimoire-shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px) rotate(-2deg); }
-        50% { transform: translateX(5px) rotate(2deg); }
-        75% { transform: translateX(-5px) rotate(-1deg); }
-      }
-      .grimoire-shake {
-        animation: grimoire-shake 0.4s ease-in-out forwards;
-      }
-      
-      /* Duel des Scribes - Minuteur */
-      .fuse-container {
-        position: relative;
-        width: 100%;
-        background: #334155; /* slate-700 */
-        border-radius: 99px;
-        height: 8px;
-        border: 1px solid #1e293b;
-      }
-      .fuse-progress {
-        background: linear-gradient(to right, #facc15, #f59e0b, #ef4444); /* yellow to amber to red */
-        height: 100%;
-        border-radius: 99px;
-        position: relative;
-        transition: width 1s linear; /* Matches timer interval */
-      }
-      .fuse-spark {
-        position: absolute;
-        top: 50%;
-        right: -2px;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        background: white;
-        border-radius: 50%;
-        box-shadow: 0 0 8px 4px #fef08a;
-        animation: spark-flicker 0.15s infinite;
-      }
-      @keyframes spark-flicker {
-        0% { transform: translateY(-50%) scale(1.2); opacity: 1; }
-        50% { transform: translateY(-50%) scale(0.8); opacity: 0.8; }
-        100% { transform: translateY(-50%) scale(1.3); opacity: 1; }
-      }
-
-      @keyframes shake-timer {
-        0% { transform: translate(1px, 1px) rotate(0deg); }
-        10% { transform: translate(-1px, -2px) rotate(-1deg); }
-        20% { transform: translate(-3px, 0px) rotate(1deg); }
-        30% { transform: translate(3px, 2px) rotate(0deg); }
-        40% { transform: translate(1px, -1px) rotate(1deg); }
-        50% { transform: translate(-1px, 2px) rotate(-1deg); }
-        60% { transform: translate(-3px, 1px) rotate(0deg); }
-        70% { transform: translate(3px, 1px) rotate(-1deg); }
-        80% { transform: translate(-1px, -1px) rotate(1deg); }
-        90% { transform: translate(1px, 2px) rotate(0deg); }
-        100% { transform: translate(1px, -2px) rotate(-1deg); }
-      }
-      .shake-timer {
-        animation: shake-timer 0.8s infinite;
-      }
-      
-      /* === NOUVEAUX STYLES === */
-
-      /* Grimoire des Formules */
-      .grimoire-card-container {
-        perspective: 1000px;
-      }
-      .grimoire-card {
-        position: relative;
-        width: 100%;
-        height: 200px;
-        transform-style: preserve-3d;
-        transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-      }
-      .grimoire-card-container:hover .grimoire-card {
-        transform: rotateY(180deg);
-      }
-      .card-face {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-radius: 0.75rem;
-        border: 1px solid #334155;
-      }
-      .card-front {
-        background: linear-gradient(to bottom right, #1e293b, #334155);
-      }
-      .card-back {
-        background: linear-gradient(to bottom right, #374151, #1f2937);
-        transform: rotateY(180deg);
-        padding: 1rem;
-        justify-content: flex-start;
-        align-items: flex-start;
-        overflow-y: auto;
-      }
-      
-      /* Galerie des Scribes */
-      .gallery-card {
-         background: rgba(30, 41, 59, 0.5);
-         border: 1px solid #475569;
-         backdrop-filter: blur(5px);
-      }
-
-      /* Atelier du Scribe (Projets) */
+      /* Context Menu for Project Workspace */
       .context-menu {
-        position: absolute;
-        z-index: 1000;
-        background-color: #1e293b;
-        border: 1px solid #334155;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        position: fixed;
+        z-index: 10000;
+        background-color: #1e293b; /* slate-800 */
+        border: 1px solid #334155; /* slate-700 */
+        border-radius: 0.5rem;
         padding: 0.5rem;
-        width: 200px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
       .context-menu-item {
-        background: none;
-        border: none;
-        color: #cbd5e1;
+        display: block;
         width: 100%;
         text-align: left;
-        padding: 0.5rem 0.75rem;
-        border-radius: 4px;
+        padding: 0.5rem 1rem;
         font-size: 0.875rem;
+        color: #cbd5e1; /* slate-300 */
+        border-radius: 0.25rem;
+        background: none;
+        border: none;
+        cursor: pointer;
       }
       .context-menu-item:hover {
-        background-color: #334155;
-        color: #f1f5f9;
+        background-color: #334155; /* slate-700 */
+        color: white;
       }
+
+      /* Mini Workshop Modal styles */
       .mini-workshop-overlay {
         position: fixed;
         inset: 0;
@@ -733,8 +638,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background-color: #1e293b;
-        border: 1px solid #334155;
+        background-color: #1e293b; /* slate-800 */
+        border: 1px solid #334155; /* slate-700 */
         border-radius: 1rem;
         padding: 1.5rem;
         z-index: 9999;
@@ -742,27 +647,118 @@
         max-width: 500px;
       }
 
+      /* Styles for ScribeDuelMode timer */
+      .fuse-container {
+        width: 100%;
+        height: 12px;
+        background-color: #374151; /* gray-700 */
+        border-radius: 6px;
+        padding: 2px;
+        overflow: hidden;
+      }
+      .fuse-progress {
+        height: 100%;
+        background: linear-gradient(to right, #ef4444, #f59e0b); /* red-500 to amber-500 */
+        border-radius: 4px;
+        position: relative;
+        transition: width 1s linear;
+      }
+      .fuse-spark {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 8px 4px rgba(255, 255, 255, 0.7);
+        animation: spark-flicker 0.2s infinite;
+      }
+      @keyframes spark-flicker {
+        0% { opacity: 1; }
+        50% { opacity: 0.6; }
+        100% { opacity: 1; }
+      }
+      @keyframes shake-timer {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+        20%, 40%, 60%, 80% { transform: translateX(3px); }
+      }
+      .shake-timer {
+        animation: shake-timer 0.5s ease-in-out infinite;
+      }
+
+      /* Styles for HomophoneDuelMode grimoire */
+      @keyframes grimoire-glow-anim {
+        0%, 100% { filter: drop-shadow(0 0 5px #22d3ee); }
+        50% { filter: drop-shadow(0 0 15px #67e8f9); }
+      }
+      .grimoire-glow {
+        animation: grimoire-glow-anim 0.8s ease-in-out;
+      }
+      @keyframes grimoire-shake-anim {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px) rotate(-2deg); }
+        75% { transform: translateX(5px) rotate(2deg); }
+      }
+      .grimoire-shake {
+        animation: grimoire-shake-anim 0.4s ease-in-out;
+      }
+
+      /* Styles for ScribesGallery */
+      .gallery-card {
+        background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
+        border: 1px solid #334155; /* slate-700 */
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+      .gallery-card:hover {
+        border-color: #475569; /* slate-600 */
+      }
+
+      /* Styles for GrimoireMode */
+      .grimoire-card-container {
+        perspective: 1000px;
+        width: 100%;
+        aspect-ratio: 3 / 4;
+      }
+      .grimoire-card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+      }
+      .grimoire-card-container:hover .grimoire-card {
+        transform: rotateY(180deg);
+      }
+      .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden; /* Safari */
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid #475569; /* slate-600 */
+      }
+      .card-front {
+        background-color: #1e293b; /* slate-800 */
+      }
+      .card-back {
+        background-color: #334155; /* slate-700 */
+        transform: rotateY(180deg);
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.4",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "vitest": "https://aistudiocdn.com/vitest@^3.2.4",
-    "@testing-library/react": "https://aistudiocdn.com/@testing-library/react@^16.3.0",
-    "vitest/": "https://aistudiocdn.com/vitest@^3.2.4/",
-    "pdfjs-dist": "https://aistudiocdn.com/pdfjs-dist@^5.4.149",
-    "zustand": "https://aistudiocdn.com/zustand@^5.0.8",
-    "@testing-library/jest-dom": "https://aistudiocdn.com/@testing-library/jest-dom@^6.9.1"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body class="text-slate-300">
+  </head>
+  <body>
     <canvas id="constellation-canvas"></canvas>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
